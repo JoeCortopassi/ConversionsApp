@@ -16,7 +16,7 @@
 
 @implementation CalculatorViewController
 
-@synthesize bounds, category, selectedInput;
+@synthesize bounds, category, calculator, selectedInput;
 @synthesize leftInputLabel, leftInputOverlay, rightInputLabel, rightInputOverlay;
 @synthesize leftPickerView, rightPickerView;
 @synthesize oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton, sevenButton, eightButton, nineButton, zeroButton, periodButton, clearButton;
@@ -39,6 +39,8 @@
         self.zeroButton     = [UIButton buttonWithType:UIButtonTypeCustom];
         self.periodButton   = [UIButton buttonWithType:UIButtonTypeCustom];
         self.clearButton    = [UIButton buttonWithType:UIButtonTypeCustom];
+        
+        self.calculator = [[Calculations alloc] init];
     }
     return self;
 }
@@ -115,10 +117,16 @@
     CGRect pickerFrame = CGRectMake(0, self.leftInputLabel.frame.size.height + 4, self.bounds.size.width/2, 180.0);
     
     self.leftPickerView = [[UIPickerView alloc] init];
+    self.leftPickerView.tag = inputLeft;
     self.leftPickerView.frame = CGRectMake(0, pickerFrame.origin.y, pickerFrame.size.width, pickerFrame.size.height);
+    self.leftPickerView.dataSource = self;
+    self.leftPickerView.delegate = self;
     
     self.rightPickerView = [[UIPickerView alloc] init];
+    self.rightPickerView.tag = inputRight;
     self.rightPickerView.frame = CGRectMake(pickerFrame.size.width, pickerFrame.origin.y, pickerFrame.size.width, pickerFrame.size.height);
+    self.rightPickerView.dataSource = self;
+    self.rightPickerView.delegate = self;
     
     
     [self.view addSubview:self.leftPickerView];
@@ -214,8 +222,18 @@
     right.frame = CGRectMake(bounds.size.width-verticalBar.width, pickerTop, verticalBar.width, verticalBar.height);
     right.backgroundColor = color;
     
+    UILabel *selection = [[UILabel alloc] init];
+    selection.frame = CGRectMake(0, pickerTop + (self.leftPickerView.frame.size.height/2) - 22.0, bounds.size.width, 44.0);
+    selection.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
+
+    UILabel *selectionBorder = [[UILabel alloc] init];
+    selectionBorder.frame = selection.frame;
+    selectionBorder.backgroundColor = [UIColor clearColor];
+    selectionBorder.layer.borderColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7].CGColor;
+    selectionBorder.layer.borderWidth = 2.0;
     
-    
+    [self.view addSubview:selection];
+    [self.view addSubview:selectionBorder];
     [self.view addSubview:top];
     [self.view addSubview:bottom];
     [self.view addSubview:left];
@@ -276,4 +294,51 @@
     NSLog(@"%@",[[(UIButton *)sender titleLabel] text]);
 }
 
+
+
+
+
+/*************************************
+    PickerView Delegate Methods
+ *************************************/
+- (CGFloat) pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
+{
+    return 50.0;
+}
+
+
+- (CGFloat) pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
+{
+    return self.leftPickerView.frame.size.width - 22;
+}
+
+
+- (NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return [[self.calculator measurementTypesForCategory:self.category] objectAtIndex:row];
+}
+
+
+- (void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    
+}
+
+
+
+
+/*************************************
+ PickerView Datasource Methods
+ *************************************/
+- (NSInteger) numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    
+    return 1;
+}
+
+
+- (NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return [[self.calculator measurementTypesForCategory:self.category] count];
+}
 @end

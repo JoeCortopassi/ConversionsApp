@@ -16,11 +16,12 @@ typedef enum {
 } InputSide;
 
 
-@interface CalculatorViewController : UIViewController
+@interface CalculatorViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (nonatomic, assign) CGRect bounds;
 @property (nonatomic, strong) NSString *category;
 @property (nonatomic, assign) InputSide selectedInput;
+@property (nonatomic, strong) Calculations *calculator;
 
 /**********************
     Display elements

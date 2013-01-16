@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Calculations : NSObject <UIPickerViewDataSource>
+@interface Calculations : NSObject 
 
-@property (nonatomic, strong) NSString *fromInput;
-@property (nonatomic, strong) NSString *toInput;
-@property (nonatomic, readonly) NSArray *lengthDataSource;
+/*************************************
+        Calculation Methods
+ *************************************/
+- (NSArray *) measurementTypesForCategory:(NSString *)category;
+- (CGFloat) convert:(CGFloat)input fromMeasurementType:(NSString *)inputType toMeasurementType:(NSString *)outputType;
+
 
 @end

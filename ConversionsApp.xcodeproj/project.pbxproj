@@ -16,7 +16,6 @@
 		730AF35816A657940058264B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 730AF35716A657940058264B /* Default.png */; };
 		730AF35A16A657940058264B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 730AF35916A657940058264B /* Default@2x.png */; };
 		730AF35C16A657940058264B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 730AF35B16A657940058264B /* Default-568h@2x.png */; };
-		730AF36316A659010058264B /* asdf.xib in Resources */ = {isa = PBXBuildFile; fileRef = 730AF36216A659010058264B /* asdf.xib */; };
 		730AF36616A661850058264B /* CalculatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 730AF36516A661850058264B /* CalculatorViewController.m */; };
 		7390A22216A7228600373AD6 /* Calculations.m in Sources */ = {isa = PBXBuildFile; fileRef = 7390A22116A7228600373AD6 /* Calculations.m */; };
 /* End PBXBuildFile section */
@@ -35,7 +34,6 @@
 		730AF35716A657940058264B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		730AF35916A657940058264B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		730AF35B16A657940058264B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		730AF36216A659010058264B /* asdf.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = asdf.xib; sourceTree = "<group>"; };
 		730AF36416A661850058264B /* CalculatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculatorViewController.h; sourceTree = "<group>"; };
 		730AF36516A661850058264B /* CalculatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalculatorViewController.m; sourceTree = "<group>"; };
 		7390A22016A7228600373AD6 /* Calculations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Calculations.h; sourceTree = "<group>"; };
@@ -92,7 +90,6 @@
 				730AF36516A661850058264B /* CalculatorViewController.m */,
 				7390A22016A7228600373AD6 /* Calculations.h */,
 				7390A22116A7228600373AD6 /* Calculations.m */,
-				730AF36216A659010058264B /* asdf.xib */,
 				730AF34C16A657940058264B /* Supporting Files */,
 			);
 			path = ConversionsApp;
@@ -167,7 +164,6 @@
 				730AF35816A657940058264B /* Default.png in Resources */,
 				730AF35A16A657940058264B /* Default@2x.png in Resources */,
 				730AF35C16A657940058264B /* Default-568h@2x.png in Resources */,
-				730AF36316A659010058264B /* asdf.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
