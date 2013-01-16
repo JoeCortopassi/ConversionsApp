@@ -52,7 +52,7 @@
 
 - (CGFloat) convert:(CGFloat)input fromMeasurementType:(NSString *)inputType toMeasurementType:(NSString *)outputType
 {
-    
+    return input * 2;
 }
 
 

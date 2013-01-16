@@ -76,10 +76,12 @@
     // Left side
     self.leftInputLabel = [[UILabel alloc] init];
     self.leftInputLabel.frame = leftInputFrame;
+    self.leftInputLabel.tag = inputLeft;
     self.leftInputLabel.backgroundColor = backgroundColor;
     self.leftInputLabel.textColor = textColor;
     self.leftInputLabel.font = font;
     self.leftInputLabel.textAlignment = NSTextAlignmentCenter;
+    self.leftInputLabel.text = @"0";
     
     self.leftInputOverlay = [[UIButton alloc] init];
     self.leftInputOverlay.frame = leftInputFrame;
@@ -91,10 +93,12 @@
     // Right side
     self.rightInputLabel = [[UILabel alloc] init];
     self.rightInputLabel.frame = rightInputFrame;
+    self.rightInputLabel.tag = inputRight;
     self.rightInputLabel.backgroundColor = backgroundColor;
     self.rightInputLabel.textColor = textColor;
     self.rightInputLabel.font = font;
     self.rightInputLabel.textAlignment = NSTextAlignmentCenter;
+    self.rightInputLabel.text = @"0";
     
     self.rightInputOverlay = [[UIButton alloc] init];
     self.rightInputOverlay.frame = rightInputFrame;
@@ -102,13 +106,14 @@
     [self.rightInputOverlay addTarget:self action:@selector(inputTouched:) forControlEvents:UIControlEventTouchUpInside];
     self.rightInputOverlay.tag = inputRight;
     
-    self.leftInputLabel.text = @"0.00";
-    self.rightInputLabel.text = @"0.00";
     // Add to view
     [self.view addSubview:self.leftInputLabel];
     [self.view addSubview:self.leftInputOverlay];
     [self.view addSubview:self.rightInputLabel];
     [self.view addSubview:self.rightInputOverlay];
+    
+    
+    self.selectedInput = inputLeft;
 }
 
 
@@ -244,10 +249,115 @@
 
 
 
-/*********************
-        Misc
- *********************/
+/******************************
+        Handling Input
+ ******************************/
+- (void) addInput:(NSString *)input toInputLabel:(UILabel *)inputLabel
+{
+    if (![self isInput:input allowedForInputLabel:inputLabel])
+    {
+        return;
+    }
+    
+    inputLabel.text = [NSString stringWithFormat:@"%@%@", inputLabel.text, input];
+    UILabel *outputLabel = (UILabel *)[self inputLabelForSide:inputLabel.tag isOpposite:YES];
+    CGFloat output = [self.calculator convert:[inputLabel.text floatValue]
+                           fromMeasurementType:[self getPickerViewSelectionForSide:self.selectedInput]
+                             toMeasurementType:[self getPickerViewSelectionForSide:((self.selectedInput == inputLeft)? inputRight: inputLeft)]];
+    outputLabel.text = [NSString stringWithFormat:@"%f",output];
+}
 
+
+- (BOOL) isInput:(NSString *)input allowedForInputLabel:(UILabel *)inputLabel
+{
+    // Is period already used
+    if ([input caseInsensitiveCompare:@"."] == NSOrderedSame && [inputLabel.text rangeOfString:@"."].location != NSNotFound)
+    {
+        return NO;
+    }
+    
+    // Clear button pressed
+    if ([input caseInsensitiveCompare:@"c"] == NSOrderedSame)
+    {
+        [self inputLabelForSide:self.selectedInput isOpposite:YES].text = @"0";
+        inputLabel.text = @"0";
+        return NO;
+    }
+    
+    // Length check
+    if (inputLabel.text.length >= 10)
+    {
+        return NO;
+    }
+    
+    // Blank Input when original value is placeholder zero
+    if ([inputLabel.text caseInsensitiveCompare:@"0"] == NSOrderedSame)
+    {
+        inputLabel.text = @"";
+        return YES;
+    }
+    
+    
+    // Nothing got flagged, carry on
+    return YES;
+}
+
+
+- (UILabel *) inputLabelForSide:(InputSide)side isOpposite:(BOOL)opposite
+{
+    UILabel *updateLabel;
+    
+    
+    if (inputLeft == side && !opposite)
+    {
+        updateLabel = self.leftInputLabel;
+    }
+    else
+    {
+        updateLabel = self.rightInputLabel;
+    }
+    
+    
+    return updateLabel;
+}
+
+
+- (void) setSelectedInput:(InputSide) input
+{
+    UIButton *selectedOverlay = (input == inputLeft)? self.leftInputOverlay: self.rightInputOverlay;
+    UIButton *alternativeOverlay = (input == inputLeft)? self.rightInputOverlay: self.leftInputOverlay;
+    
+    selectedOverlay.layer.borderColor = [UIColor colorWithRed:44.0/255.0 green:228/255.0 blue:254.0/255.0 alpha:0.4].CGColor;
+    selectedOverlay.layer.borderWidth = 3.0;
+    selectedOverlay.layer.cornerRadius = 3.0;
+    
+    alternativeOverlay.layer.borderColor = [UIColor clearColor].CGColor;
+    alternativeOverlay.layer.borderWidth = 0.0;
+    alternativeOverlay.layer.cornerRadius = 0.0;
+    
+    selectedInput = input;
+}
+
+
+/*********************
+    Picker View
+ *********************/
+- (NSString *) getPickerViewSelectionForSide:(InputSide)side
+{
+    int index;
+    
+    if (side == inputLeft)
+    {
+        index = [self.leftPickerView selectedRowInComponent:0];
+    }
+    else
+    {
+        index = [self.rightPickerView selectedRowInComponent:0];
+    }
+
+
+    return [[self.calculator measurementTypesForCategory:self.category] objectAtIndex:index];
+}
 
 
 
@@ -260,16 +370,6 @@
 - (void) inputTouched:(id)sender
 {
     self.selectedInput = [sender tag];
-    UIButton *selectedOverlay = (UIButton *)sender;
-    UIButton *alternativeOverlay = (self.selectedInput == inputLeft)? self.rightInputOverlay: leftInputOverlay;
-    
-    selectedOverlay.layer.borderColor = [UIColor colorWithRed:44.0/255.0 green:228/255.0 blue:254.0/255.0 alpha:0.4].CGColor;
-    selectedOverlay.layer.borderWidth = 3.0;
-    selectedOverlay.layer.cornerRadius = 3.0;
-    
-    alternativeOverlay.layer.borderColor = [UIColor clearColor].CGColor;
-    alternativeOverlay.layer.borderWidth = 0.0;
-    alternativeOverlay.layer.cornerRadius = 0.0;
 }
 
 
@@ -281,9 +381,9 @@
 
 - (void) buttonTouchUpInside:(id)sender
 {
-    [(UIButton *)sender setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.2]];
+    [self addInput:[(UIButton *)sender titleLabel].text toInputLabel:[self inputLabelForSide:self.selectedInput isOpposite:NO]];
     
-    NSLog(@"%@",[[(UIButton *)sender titleLabel] text]);
+    [(UIButton *)sender setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.2]];
 }
 
 
