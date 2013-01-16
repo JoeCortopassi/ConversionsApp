@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) NSString *fromInput;
 @property (nonatomic, strong) NSString *toInput;
+@property (nonatomic, readonly) NSArray *lengthDataSource;
+
 @end
