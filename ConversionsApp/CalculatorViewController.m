@@ -25,6 +25,18 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.sevenButton = [[UIButton alloc] init];
+        self.eightButton = [[UIButton alloc] init];
+        self.nineButton = [[UIButton alloc] init];
+        self.fourButton = [[UIButton alloc] init];
+        self.fiveButton = [[UIButton alloc] init];
+        self.sixButton = [[UIButton alloc] init];
+        self.oneButton = [[UIButton alloc] init];
+        self.twoButton = [[UIButton alloc] init];
+        self.threeButton = [[UIButton alloc] init];
+        self.zeroButton = [[UIButton alloc] init];
+        self.periodButton = [[UIButton alloc] init];
+        self.clearButton = [[UIButton alloc] init];
     }
     return self;
 }
@@ -113,9 +125,34 @@
 
 - (void) setupButtons
 {
-    CGSize buttonSize = CGSizeMake(bounds.size.width/3, 50.0);
+    CGPoint buttonOrigin = CGPointMake(0, 230.0);
+    CGSize buttonSize = CGSizeMake(bounds.size.width/3, 40.0);
     UIColor *backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.2];
+    CGFloat buttonPadding = 3;
+    NSArray *buttons    = @[self.sevenButton,self.eightButton,self.nineButton,
+                            self.fourButton,self.fiveButton,self.sixButton,
+                            self.oneButton,self.twoButton,self.threeButton,
+                            self.zeroButton,self.periodButton,self.clearButton];
     
+//    NSDictionary *buttonText = @{
+    
+    int col = 0;
+    int row = 0;
+    
+    for (int i=0; i<[buttons count]; i++)
+    {
+        CGFloat x = ((buttonSize.width + buttonPadding) * col) + buttonOrigin.x;
+        CGFloat y = ((buttonSize.height + buttonPadding) * row) + buttonOrigin.y;
+        
+        UIButton *button = [buttons objectAtIndex:i];
+        button.frame = CGRectMake(x, y, buttonSize.width, buttonSize.height);
+        button.backgroundColor = backgroundColor;
+        
+        row = (col == 2)? ++row: row;
+        col = (col == 2)? 0: ++col;
+        
+        [self.view addSubview:button];
+    }
 }
 
 
