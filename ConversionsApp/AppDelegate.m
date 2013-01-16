@@ -7,14 +7,29 @@
 //
 
 #import "AppDelegate.h"
+#import "CalculatorViewController.h"
 
 @implementation AppDelegate
+
+@synthesize tabBarController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.backgroundColor = [UIColor blackColor];
+    
+    
+    CalculatorViewController *calculatorViewController = [[CalculatorViewController alloc] init];
+    calculatorViewController.category = @"length";
+    calculatorViewController.title = @"Length";
+    
+    
+    self.tabBarController = [[UITabBarController alloc] init];
+    self.tabBarController.viewControllers = @[calculatorViewController];
+    
+    
+    [self.window addSubview:self.tabBarController.view];
     [self.window makeKeyAndVisible];
     return YES;
 }
