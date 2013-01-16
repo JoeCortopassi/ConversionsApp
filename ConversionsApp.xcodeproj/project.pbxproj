@@ -18,6 +18,7 @@
 		730AF35C16A657940058264B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 730AF35B16A657940058264B /* Default-568h@2x.png */; };
 		730AF36316A659010058264B /* asdf.xib in Resources */ = {isa = PBXBuildFile; fileRef = 730AF36216A659010058264B /* asdf.xib */; };
 		730AF36616A661850058264B /* CalculatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 730AF36516A661850058264B /* CalculatorViewController.m */; };
+		7390A22216A7228600373AD6 /* Calculations.m in Sources */ = {isa = PBXBuildFile; fileRef = 7390A22116A7228600373AD6 /* Calculations.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,8 @@
 		730AF36216A659010058264B /* asdf.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = asdf.xib; sourceTree = "<group>"; };
 		730AF36416A661850058264B /* CalculatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculatorViewController.h; sourceTree = "<group>"; };
 		730AF36516A661850058264B /* CalculatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalculatorViewController.m; sourceTree = "<group>"; };
+		7390A22016A7228600373AD6 /* Calculations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Calculations.h; sourceTree = "<group>"; };
+		7390A22116A7228600373AD6 /* Calculations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Calculations.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +90,8 @@
 				730AF35516A657940058264B /* AppDelegate.m */,
 				730AF36416A661850058264B /* CalculatorViewController.h */,
 				730AF36516A661850058264B /* CalculatorViewController.m */,
+				7390A22016A7228600373AD6 /* Calculations.h */,
+				7390A22116A7228600373AD6 /* Calculations.m */,
 				730AF36216A659010058264B /* asdf.xib */,
 				730AF34C16A657940058264B /* Supporting Files */,
 			);
@@ -176,6 +181,7 @@
 				730AF35216A657940058264B /* main.m in Sources */,
 				730AF35616A657940058264B /* AppDelegate.m in Sources */,
 				730AF36616A661850058264B /* CalculatorViewController.m in Sources */,
+				7390A22216A7228600373AD6 /* Calculations.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +290,7 @@
 				730AF36116A657940058264B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

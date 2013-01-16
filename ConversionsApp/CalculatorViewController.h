@@ -8,11 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CalculatorViewController : UIViewController
+@class Calculations;
 
+typedef enum {
+    inputLeft,
+    inputRight
+} InputSide;
+
+
+@interface CalculatorViewController : UIViewController
 
 @property (nonatomic, assign) CGRect bounds;
 @property (nonatomic, strong) NSString *category;
+@property (nonatomic, assign) InputSide selectedInput;
 
 /**********************
     Display elements

@@ -7,6 +7,8 @@
 //
 
 #import "CalculatorViewController.h"
+#import <QuartzCore/QuartzCore.h>
+#import "Calculations.h"
 
 @interface CalculatorViewController ()
 
@@ -14,7 +16,7 @@
 
 @implementation CalculatorViewController
 
-@synthesize bounds, category;
+@synthesize bounds, category, selectedInput;
 @synthesize leftInputLabel, leftInputOverlay, rightInputLabel, rightInputOverlay;
 @synthesize leftPickerView, rightPickerView;
 @synthesize oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton, sevenButton, eightButton, nineButton, zeroButton, periodButton, clearButton;
@@ -25,18 +27,18 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.sevenButton = [[UIButton alloc] init];
-        self.eightButton = [[UIButton alloc] init];
-        self.nineButton = [[UIButton alloc] init];
-        self.fourButton = [[UIButton alloc] init];
-        self.fiveButton = [[UIButton alloc] init];
-        self.sixButton = [[UIButton alloc] init];
-        self.oneButton = [[UIButton alloc] init];
-        self.twoButton = [[UIButton alloc] init];
-        self.threeButton = [[UIButton alloc] init];
-        self.zeroButton = [[UIButton alloc] init];
-        self.periodButton = [[UIButton alloc] init];
-        self.clearButton = [[UIButton alloc] init];
+        self.sevenButton    = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.eightButton    = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.nineButton     = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.fourButton     = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.fiveButton     = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.sixButton      = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.oneButton      = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.twoButton      = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.threeButton    = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.zeroButton     = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.periodButton   = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.clearButton    = [UIButton buttonWithType:UIButtonTypeCustom];
     }
     return self;
 }
@@ -81,6 +83,7 @@
     self.leftInputOverlay.frame = leftInputFrame;
     self.leftInputOverlay.backgroundColor = [UIColor clearColor];
     [self.leftInputOverlay addTarget:self action:@selector(inputTouched:) forControlEvents:UIControlEventTouchUpInside];
+    self.leftInputOverlay.tag = inputLeft;
     
     
     // Right side
@@ -95,8 +98,10 @@
     self.rightInputOverlay.frame = rightInputFrame;
     self.rightInputOverlay.backgroundColor = [UIColor clearColor];
     [self.rightInputOverlay addTarget:self action:@selector(inputTouched:) forControlEvents:UIControlEventTouchUpInside];
+    self.rightInputOverlay.tag = inputRight;
     
-    
+    self.leftInputLabel.text = @"0.00";
+    self.rightInputLabel.text = @"0.00";
     // Add to view
     [self.view addSubview:self.leftInputLabel];
     [self.view addSubview:self.leftInputOverlay];
@@ -107,7 +112,7 @@
 
 - (void) setupMeasurementTypePickers
 {
-    CGRect pickerFrame = CGRectMake(0, self.leftInputLabel.frame.size.height + 4, self.bounds.size.width/2, 215.0);
+    CGRect pickerFrame = CGRectMake(0, self.leftInputLabel.frame.size.height + 4, self.bounds.size.width/2, 180.0);
     
     self.leftPickerView = [[UIPickerView alloc] init];
     self.leftPickerView.frame = CGRectMake(0, pickerFrame.origin.y, pickerFrame.size.width, pickerFrame.size.height);
@@ -125,16 +130,16 @@
 
 - (void) setupButtons
 {
-    CGPoint buttonOrigin = CGPointMake(0, 230.0);
-    CGSize buttonSize = CGSizeMake(bounds.size.width/3, 40.0);
-    UIColor *backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.2];
     CGFloat buttonPadding = 3;
+    CGPoint buttonOrigin = CGPointMake(0, (self.leftPickerView.frame.origin.y + self.leftPickerView.frame.size.height + 4));
+    CGSize buttonSize = CGSizeMake(bounds.size.width*0.33, ((bounds.size.height - buttonOrigin.y - self.tabBarController.tabBar.frame.size.height - 4)/4) - buttonPadding -5);
+    UIColor *backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.2];
     NSArray *buttons    = @[self.sevenButton,self.eightButton,self.nineButton,
                             self.fourButton,self.fiveButton,self.sixButton,
                             self.oneButton,self.twoButton,self.threeButton,
                             self.zeroButton,self.periodButton,self.clearButton];
+    UIFont *font = [UIFont fontWithName:@"Verdana" size:20];
     
-//    NSDictionary *buttonText = @{
     
     int col = 0;
     int row = 0;
@@ -146,13 +151,38 @@
         
         UIButton *button = [buttons objectAtIndex:i];
         button.frame = CGRectMake(x, y, buttonSize.width, buttonSize.height);
+        button.titleLabel.font = font;
         button.backgroundColor = backgroundColor;
+        button.titleLabel.textColor = [UIColor whiteColor];
+        [button addTarget:self action:@selector(buttonTouchDownInside:) forControlEvents:UIControlEventTouchDown];
+        [button addTarget:self action:@selector(buttonTouchUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
+        [button addTarget:self action:@selector(buttonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
         
         row = (col == 2)? ++row: row;
         col = (col == 2)? 0: ++col;
         
         [self.view addSubview:button];
     }
+    
+    
+    [self labelButtons];
+}
+
+
+- (void) labelButtons
+{
+    [self.oneButton setTitle:@"1" forState:UIControlStateNormal];
+    [self.twoButton setTitle:@"2" forState:UIControlStateNormal];
+    [self.threeButton setTitle:@"3" forState:UIControlStateNormal];
+    [self.fourButton setTitle:@"4" forState:UIControlStateNormal];
+    [self.fiveButton setTitle:@"5" forState:UIControlStateNormal];
+    [self.sixButton setTitle:@"6" forState:UIControlStateNormal];
+    [self.sevenButton setTitle:@"7" forState:UIControlStateNormal];
+    [self.eightButton setTitle:@"8" forState:UIControlStateNormal];
+    [self.nineButton setTitle:@"9" forState:UIControlStateNormal];
+    [self.zeroButton setTitle:@"0" forState:UIControlStateNormal];
+    [self.periodButton setTitle:@"." forState:UIControlStateNormal];
+    [self.clearButton setTitle:@"C" forState:UIControlStateNormal];
 }
 
 
@@ -195,11 +225,55 @@
 }
 
 
+
+/*********************
+        Misc
+ *********************/
+
+
+
+
+
+
+
 /*********************
     Touch Events
  *********************/
 - (void) inputTouched:(id)sender
 {
-    NSLog(@"%@", sender);
+    self.selectedInput = [sender tag];
+    UIButton *selectedOverlay = (UIButton *)sender;
+    UIButton *alternativeOverlay = (self.selectedInput == inputLeft)? self.rightInputOverlay: leftInputOverlay;
+    
+    selectedOverlay.layer.borderColor = [UIColor colorWithRed:44.0/255.0 green:228/255.0 blue:254.0/255.0 alpha:0.4].CGColor;
+    selectedOverlay.layer.borderWidth = 3.0;
+    selectedOverlay.layer.cornerRadius = 3.0;
+    
+    alternativeOverlay.layer.borderColor = [UIColor clearColor].CGColor;
+    alternativeOverlay.layer.borderWidth = 0.0;
+    alternativeOverlay.layer.cornerRadius = 0.0;
 }
+
+
+- (void) buttonTouchDownInside:(id)sender
+{
+    [(UIButton *)sender setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.4]];
+}
+
+
+- (void) buttonTouchUpInside:(id)sender
+{
+    [(UIButton *)sender setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.2]];
+    
+    NSLog(@"%@",[[(UIButton *)sender titleLabel] text]);
+}
+
+
+- (void) buttonTouchUpOutside:(id)sender
+{
+    [(UIButton *)sender setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.2]];
+    
+    NSLog(@"%@",[[(UIButton *)sender titleLabel] text]);
+}
+
 @end

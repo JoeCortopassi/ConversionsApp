@@ -20,13 +20,22 @@
     self.window.backgroundColor = [UIColor blackColor];
     
     
-    CalculatorViewController *calculatorViewController = [[CalculatorViewController alloc] init];
-    calculatorViewController.category = @"length";
-    calculatorViewController.title = @"Length";
+    CalculatorViewController *lengthConverter = [[CalculatorViewController alloc] init];
+    lengthConverter.category = @"length";
+    lengthConverter.title = @"Length";
     
+    
+    CalculatorViewController *weightConverter = [[CalculatorViewController alloc] init];
+    weightConverter.category = @"weight";
+    weightConverter.title = @"Weight";
+    
+    
+    CalculatorViewController *volumeConverter = [[CalculatorViewController alloc] init];
+    volumeConverter.category = @"volume";
+    volumeConverter.title = @"Volume";
     
     self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = @[calculatorViewController];
+    self.tabBarController.viewControllers = @[lengthConverter, weightConverter, volumeConverter];
     
     
     [self.window addSubview:self.tabBarController.view];
