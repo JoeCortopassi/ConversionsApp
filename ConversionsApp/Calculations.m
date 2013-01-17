@@ -190,9 +190,9 @@
     return    @{@"Teaspoons"    : [NSNumber numberWithFloat:202.884],
                 @"Tablespoons"  : [NSNumber numberWithFloat:67.628],
                 @"Cups"         : [NSNumber numberWithFloat:4.22675],
-                @"Liters"       : [NSNumber numberWithFloat:1.0],  // standard
-                @"Quarts"       : [NSNumber numberWithFloat:1.05669],
                 @"Pints"        : [NSNumber numberWithFloat:2.11338],
+                @"Quarts"       : [NSNumber numberWithFloat:1.05669],
+                @"Liters"       : [NSNumber numberWithFloat:1.0],  // standard
                 @"Gallons (US)" : [NSNumber numberWithFloat:0.264172],
                 @"Gallons (UK)" : [NSNumber numberWithFloat:0.219969]};
 }

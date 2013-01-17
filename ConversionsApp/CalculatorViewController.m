@@ -127,12 +127,14 @@
     self.leftPickerView.frame = CGRectMake(0, pickerFrame.origin.y, pickerFrame.size.width, pickerFrame.size.height);
     self.leftPickerView.dataSource = self;
     self.leftPickerView.delegate = self;
+    [self.leftPickerView selectRow:round([[self.calculator measurementTypes] count]/2) inComponent:0 animated:YES];
     
     self.rightPickerView = [[UIPickerView alloc] init];
     self.rightPickerView.tag = inputRight;
     self.rightPickerView.frame = CGRectMake(pickerFrame.size.width, pickerFrame.origin.y, pickerFrame.size.width, pickerFrame.size.height);
     self.rightPickerView.dataSource = self;
     self.rightPickerView.delegate = self;
+    [self.rightPickerView selectRow:round([[self.calculator measurementTypes] count]/2) inComponent:0 animated:YES];
     
     
     [self.view addSubview:self.leftPickerView];

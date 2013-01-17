@@ -23,22 +23,24 @@
     CalculatorViewController *lengthConverter = [[CalculatorViewController alloc] init];
     lengthConverter.category = @"length";
     lengthConverter.title = @"Length";
-    //lengthConverter.tabBarItem.image = [UIImage imageNamed:@""];
+    lengthConverter.tabBarItem.image = [UIImage imageNamed:@"length_tab_bar.png"];
     
     
     CalculatorViewController *weightConverter = [[CalculatorViewController alloc] init];
     weightConverter.category = @"weight";
     weightConverter.title = @"Weight";
-    
+    weightConverter.tabBarItem.image = [UIImage imageNamed:@"weight_tab_bar.png"];
     
     CalculatorViewController *volumeConverter = [[CalculatorViewController alloc] init];
     volumeConverter.category = @"volume";
     volumeConverter.title = @"Volume";
+    volumeConverter.tabBarItem.image = [UIImage imageNamed:@"volume_tab_bar.png"];
     
     
     CalculatorViewController *timeConverter = [[CalculatorViewController alloc] init];
     timeConverter.category = @"time";
     timeConverter.title = @"Time";
+    timeConverter.tabBarItem.image = [UIImage imageNamed:@"time_tab_bar.png"];
     
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = @[lengthConverter, weightConverter, volumeConverter, timeConverter];
