@@ -41,6 +41,7 @@
         self.clearButton    = [UIButton buttonWithType:UIButtonTypeCustom];
         
         self.calculator = [[Calculations alloc] init];
+        self.calculator.category = self.category;
     }
     return self;
 }
@@ -260,11 +261,19 @@
     }
     
     inputLabel.text = [NSString stringWithFormat:@"%@%@", inputLabel.text, input];
-    UILabel *outputLabel = (UILabel *)[self inputLabelForSide:inputLabel.tag isOpposite:YES];
+    [self updateOutputLabel];
+}
+
+
+- (void) updateOutputLabel
+{
+#warning update code to use outputSide everywhere
+    UILabel *inputLabel = [self inputLabelForSide:self.selectedInput isOpposite:NO];
+    UILabel *outputLabel = [self inputLabelForSide:[self outputSide] isOpposite:NO];
     CGFloat output = [self.calculator convert:[inputLabel.text floatValue]
-                           fromMeasurementType:[self getPickerViewSelectionForSide:self.selectedInput]
-                             toMeasurementType:[self getPickerViewSelectionForSide:((self.selectedInput == inputLeft)? inputRight: inputLeft)]];
-    outputLabel.text = [NSString stringWithFormat:@"%f",output];
+                          fromMeasurementType:[self getPickerViewSelectionForSide:self.selectedInput]
+                            toMeasurementType:[self getPickerViewSelectionForSide:((self.selectedInput == inputLeft)? inputRight: inputLeft)]];
+    outputLabel.text = [NSString stringWithFormat:@"%g",output];
 }
 
 
@@ -308,7 +317,7 @@
     UILabel *updateLabel;
     
     
-    if (inputLeft == side && !opposite)
+    if ((side == inputLeft && !opposite) || (side == inputRight && opposite))
     {
         updateLabel = self.leftInputLabel;
     }
@@ -339,6 +348,12 @@
 }
 
 
+- (InputSide) outputSide
+{
+    return (self.selectedInput == inputLeft)? inputRight: inputLeft;
+}
+
+
 /*********************
     Picker View
  *********************/
@@ -356,7 +371,7 @@
     }
 
 
-    return [[self.calculator measurementTypesForCategory:self.category] objectAtIndex:index];
+    return [[self.calculator measurementTypes] objectAtIndex:index];
 }
 
 
@@ -415,13 +430,13 @@
 
 - (NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    return [[self.calculator measurementTypesForCategory:self.category] objectAtIndex:row];
+    return [[self.calculator measurementTypes] objectAtIndex:row];
 }
 
 
 - (void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    
+    [self updateOutputLabel];
 }
 
 
@@ -432,13 +447,12 @@
  *************************************/
 - (NSInteger) numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-    
     return 1;
 }
 
 
 - (NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return [[self.calculator measurementTypesForCategory:self.category] count];
+    return [[self.calculator measurementTypes] count];
 }
 @end

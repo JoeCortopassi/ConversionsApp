@@ -10,10 +10,12 @@
 
 @interface Calculations : NSObject 
 
+@property (nonatomic, strong) NSString *category;
+
 /*************************************
         Calculation Methods
  *************************************/
-- (NSArray *) measurementTypesForCategory:(NSString *)category;
+- (NSArray *) measurementTypes;
 - (CGFloat) convert:(CGFloat)input fromMeasurementType:(NSString *)inputType toMeasurementType:(NSString *)outputType;
 
 

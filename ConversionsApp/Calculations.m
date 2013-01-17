@@ -9,6 +9,8 @@
 #import "Calculations.h"
 
 @interface Calculations ()
+@property (nonatomic, readonly) NSString *standardUnitOfMeasure;
+
 @property (nonatomic, readonly) NSDictionary *lengthTypes;
 @property (nonatomic, readonly) NSArray *lengthOrder;
 @property (nonatomic, readonly) NSDictionary *weightTypes;
@@ -20,24 +22,51 @@
 
 @implementation Calculations
 
+@synthesize category, standardUnitOfMeasure;
 @synthesize lengthOrder, lengthTypes, weightOrder, weightTypes, volumeOrder, volumeTypes;
+
+
+- (id) init
+{
+    if (self = [super init])
+    {
+        
+    }
+    
+    return  self;
+}
+
+
+- (NSString *) standardUnitOfMeasure
+{
+    NSString *standard;
+    
+    if ([self.category caseInsensitiveCompare:@"length"])
+    {
+        standard = @"Meters";
+    }
+    
+    return standard;
+}
+
+
 
 /*************************************
         Calculation Methods
  *************************************/
-- (NSArray *) measurementTypesForCategory:(NSString *)category
+- (NSArray *) measurementTypes
 {
     NSArray *measurementTypes;
     
-    if ([category caseInsensitiveCompare:@"length"] == NSOrderedSame)
+    if ([self.category caseInsensitiveCompare:@"length"] == NSOrderedSame)
     {
         measurementTypes = self.lengthOrder;
     }
-    else if ([category caseInsensitiveCompare:@"weight"] == NSOrderedSame)
+    else if ([self.category caseInsensitiveCompare:@"weight"] == NSOrderedSame)
     {
         measurementTypes = self.weightOrder;
     }
-    else if ([category caseInsensitiveCompare:@"volume"] == NSOrderedSame)
+    else if ([self.category caseInsensitiveCompare:@"volume"] == NSOrderedSame)
     {
         measurementTypes = self.volumeOrder;
     }
@@ -50,9 +79,44 @@
 }
 
 
+- (CGFloat) getStandardConversionUnitsForMeasurementType:(NSString *)type
+{
+    
+    NSDictionary *measurementTypes;
+    
+    if ([self.category caseInsensitiveCompare:@"length"] == NSOrderedSame)
+    {
+        measurementTypes = self.lengthTypes;
+    }
+    else if ([self.category caseInsensitiveCompare:@"weight"] == NSOrderedSame)
+    {
+        measurementTypes = self.weightTypes;
+    }
+    else if ([self.category caseInsensitiveCompare:@"volume"] == NSOrderedSame)
+    {
+        measurementTypes = self.volumeTypes;
+    }
+    else
+    {
+        measurementTypes = nil;
+    }
+    
+    return [(NSNumber *)[measurementTypes objectForKey:type] floatValue];
+
+}
+
+
 - (CGFloat) convert:(CGFloat)input fromMeasurementType:(NSString *)inputType toMeasurementType:(NSString *)outputType
 {
-    return input * 2;
+    CGFloat inputInStandardUnits;
+    CGFloat outputInStandardUnits;
+    
+    inputInStandardUnits = input / [self getStandardConversionUnitsForMeasurementType:inputType];
+    outputInStandardUnits = inputInStandardUnits * [self getStandardConversionUnitsForMeasurementType:outputType];
+
+    outputInStandardUnits = round(outputInStandardUnits * 100) / 100.0;
+    
+    return outputInStandardUnits;
 }
 
 
@@ -64,25 +128,25 @@
  *************************************/
 - (NSDictionary *)lengthTypes
 {
-    return    @{@"Inches"       : [NSNumber numberWithFloat:0.0],
-                @"Feet"         : [NSNumber numberWithFloat:0.0],
-                @"Yards"        : [NSNumber numberWithFloat:0.0],
-                @"Miles"        : [NSNumber numberWithFloat:0.0],
-                @"Centimeters"  : [NSNumber numberWithFloat:0.0],
-                @"Meters"       : [NSNumber numberWithFloat:0.0],
-                @"Kilometers"   : [NSNumber numberWithFloat:0.0]};
+    return    @{@"Inches"       : [NSNumber numberWithFloat:39.3701],
+                @"Feet"         : [NSNumber numberWithFloat:3.28084],
+                @"Yards"        : [NSNumber numberWithFloat:1.09361],
+                @"Miles"        : [NSNumber numberWithFloat:0.000621371],
+                @"Centimeters"  : [NSNumber numberWithFloat:100.0],
+                @"Meters"       : [NSNumber numberWithFloat:1.0],
+                @"Kilometers"   : [NSNumber numberWithFloat:0.001]};
 }
 
 
 - (NSArray *)lengthOrder
 {
     return    @[@"Inches",
-    @"Feet",
-    @"Yards",
-    @"Miles",
-    @"Centimeters",
-    @"Meters",
-    @"Kilometers"];
+                @"Feet",
+                @"Yards",
+                @"Miles",
+                @"Centimeters",
+                @"Meters",
+                @"Kilometers"];
 }
 
 
