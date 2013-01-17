@@ -163,13 +163,13 @@
 
 - (NSDictionary *) weightTypes
 {
-    return    @{@"Milligrams"   : [NSNumber numberWithFloat:0.001],
-                @"Grams"        : [NSNumber numberWithFloat:1.0], // standard
-                @"Ounces"       : [NSNumber numberWithFloat:28.3495],
-                @"Pounds"       : [NSNumber numberWithFloat:453.592],
-                @"Kilograms"    : [NSNumber numberWithFloat:1000.0],
-                @"Tons"         : [NSNumber numberWithFloat:907185.0],
-                @"Metric Tons"  : [NSNumber numberWithFloat:1000000.0]};
+    return    @{@"Milligrams"   : [NSNumber numberWithFloat:1000000.0],
+                @"Grams"        : [NSNumber numberWithFloat:1000.0],
+                @"Ounces"       : [NSNumber numberWithFloat:35.274],
+                @"Pounds"       : [NSNumber numberWithFloat:2.20462],
+                @"Kilograms"    : [NSNumber numberWithFloat:1.0], // standard
+                @"Tons"         : [NSNumber numberWithFloat:0.00110231],
+                @"Metric Tons"  : [NSNumber numberWithFloat:0.001]};
 }
 
 
