@@ -35,8 +35,13 @@
     volumeConverter.category = @"volume";
     volumeConverter.title = @"Volume";
     
+    
+    CalculatorViewController *timeConverter = [[CalculatorViewController alloc] init];
+    timeConverter.category = @"time";
+    timeConverter.title = @"Time";
+    
     self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = @[lengthConverter, weightConverter, volumeConverter];
+    self.tabBarController.viewControllers = @[lengthConverter, weightConverter, volumeConverter, timeConverter];
     
     
     [self.window addSubview:self.tabBarController.view];

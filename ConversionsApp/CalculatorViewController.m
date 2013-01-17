@@ -40,8 +40,6 @@
         self.periodButton   = [UIButton buttonWithType:UIButtonTypeCustom];
         self.clearButton    = [UIButton buttonWithType:UIButtonTypeCustom];
         
-        self.calculator = [[Calculations alloc] init];
-        self.calculator.category = self.category;
     }
     return self;
 }
@@ -52,6 +50,8 @@
 	// Do any additional setup after loading the view.
     self.bounds = [[UIScreen mainScreen] bounds];
     
+    self.calculator = [[Calculations alloc] init];
+    self.calculator.category = self.category;
     [self setUpInputBoxes];
     [self setupMeasurementTypePickers];
     [self setupButtons];
@@ -267,7 +267,7 @@
 
 - (void) updateOutputLabel
 {
-#warning update code to use outputSide everywhere
+    // update code to use outputSide everywhere
     UILabel *inputLabel = [self inputLabelForSide:self.selectedInput isOpposite:NO];
     UILabel *outputLabel = [self inputLabelForSide:[self outputSide] isOpposite:NO];
     CGFloat output = [self.calculator convert:[inputLabel.text floatValue]

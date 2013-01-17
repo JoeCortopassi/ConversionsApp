@@ -17,13 +17,15 @@
 @property (nonatomic, readonly) NSArray *weightOrder;
 @property (nonatomic, readonly) NSDictionary *volumeTypes;
 @property (nonatomic, readonly) NSArray *volumeOrder;
+@property (nonatomic, readonly) NSDictionary *timeTypes;
+@property (nonatomic, readonly) NSArray *timeOrder;
 @end
 
 
 @implementation Calculations
 
 @synthesize category, standardUnitOfMeasure;
-@synthesize lengthOrder, lengthTypes, weightOrder, weightTypes, volumeOrder, volumeTypes;
+@synthesize lengthOrder, lengthTypes, weightOrder, weightTypes, volumeOrder, volumeTypes, timeOrder, timeTypes;
 
 
 - (id) init
@@ -70,6 +72,10 @@
     {
         measurementTypes = self.volumeOrder;
     }
+    else if ([self.category caseInsensitiveCompare:@"time"] == NSOrderedSame)
+    {
+        measurementTypes = self.timeOrder;
+    }
     else
     {
         measurementTypes = nil;
@@ -96,6 +102,10 @@
     {
         measurementTypes = self.volumeTypes;
     }
+    else if ([self.category caseInsensitiveCompare:@"time"] == NSOrderedSame)
+    {
+        measurementTypes = self.timeTypes;
+    }
     else
     {
         measurementTypes = nil;
@@ -113,8 +123,9 @@
     
     inputInStandardUnits = input / [self getStandardConversionUnitsForMeasurementType:inputType];
     outputInStandardUnits = inputInStandardUnits * [self getStandardConversionUnitsForMeasurementType:outputType];
+    
 
-    outputInStandardUnits = round(outputInStandardUnits * 100) / 100.0;
+
     
     return outputInStandardUnits;
 }
@@ -133,7 +144,7 @@
                 @"Yards"        : [NSNumber numberWithFloat:1.09361],
                 @"Miles"        : [NSNumber numberWithFloat:0.000621371],
                 @"Centimeters"  : [NSNumber numberWithFloat:100.0],
-                @"Meters"       : [NSNumber numberWithFloat:1.0],
+                @"Meters"       : [NSNumber numberWithFloat:1.0],   // standard
                 @"Kilometers"   : [NSNumber numberWithFloat:0.001]};
 }
 
@@ -152,18 +163,20 @@
 
 - (NSDictionary *) weightTypes
 {
-    return    @{@"Grams"        : [NSNumber numberWithFloat:0.0],
-                @"Ounces"       : [NSNumber numberWithFloat:0.0],
-                @"Pounds"       : [NSNumber numberWithFloat:0.0],
-                @"Kilograms"    : [NSNumber numberWithFloat:0.0],
-                @"Tons"         : [NSNumber numberWithFloat:0.0],
-                @"Metric Tons"  : [NSNumber numberWithFloat:0.0]};
+    return    @{@"Milligrams"   : [NSNumber numberWithFloat:0.001],
+                @"Grams"        : [NSNumber numberWithFloat:1.0], // standard
+                @"Ounces"       : [NSNumber numberWithFloat:28.3495],
+                @"Pounds"       : [NSNumber numberWithFloat:453.592],
+                @"Kilograms"    : [NSNumber numberWithFloat:1000.0],
+                @"Tons"         : [NSNumber numberWithFloat:907185.0],
+                @"Metric Tons"  : [NSNumber numberWithFloat:1000000.0]};
 }
 
 
 - (NSArray *) weightOrder
 {
-    return    @[@"Grams",
+    return    @[@"Milligrams",
+                @"Grams", // standard
                 @"Ounces",
                 @"Pounds",
                 @"Kilograms",
@@ -174,19 +187,51 @@
 
 - (NSDictionary *) volumeTypes
 {
-    return    @{@"Ounces"   : [NSNumber numberWithFloat:0.0],
-                @"Liters"   : [NSNumber numberWithFloat:0.0],
-                @"Pints"    : [NSNumber numberWithFloat:0.0],
-                @"Gallons"  : [NSNumber numberWithFloat:0.0]};
+    return    @{@"Teaspoons"    : [NSNumber numberWithFloat:202.884],
+                @"Tablespoons"  : [NSNumber numberWithFloat:67.628],
+                @"Cups"         : [NSNumber numberWithFloat:4.22675],
+                @"Liters"       : [NSNumber numberWithFloat:1.0],  // standard
+                @"Quarts"       : [NSNumber numberWithFloat:1.05669],
+                @"Pints"        : [NSNumber numberWithFloat:2.11338],
+                @"Gallons (US)" : [NSNumber numberWithFloat:0.264172],
+                @"Gallons (UK)" : [NSNumber numberWithFloat:0.219969]};
 }
 
 
 - (NSArray *) volumeOrder
 {
-    return    @[@"Ounces",
+    return    @[@"Teaspoons",
+                @"Tablespoons",
+                @"Cups",
                 @"Liters",
+                @"Quarts",
                 @"Pints",
-                @"Gallons"];
+                @"Gallons (US)",
+                @"Gallons (UK)"];
+}
+
+
+- (NSDictionary *) timeTypes
+{
+    return    @{@"Seconds"  : [NSNumber numberWithFloat:3600.0],
+                @"Minutes"  : [NSNumber numberWithFloat:60.0],
+                @"Hours"    : [NSNumber numberWithFloat:1.0],   // standard
+                @"Days"     : [NSNumber numberWithFloat:(1/24.0)],
+                @"Weeks"    : [NSNumber numberWithFloat:(1/168.0)],
+                @"Months"   : [NSNumber numberWithFloat:(1/(24.0*30.5))],
+                @"Years"    : [NSNumber numberWithFloat:(1/(24.0*365.25))]};
+}
+
+
+- (NSArray *) timeOrder
+{
+    return    @[@"Seconds",
+                @"Minutes",
+                @"Hours",
+                @"Days",
+                @"Weeks",
+                @"Months",
+                @"Years"];
 }
 
 @end
