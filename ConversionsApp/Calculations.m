@@ -118,16 +118,16 @@
 
 - (CGFloat) convert:(CGFloat)input fromMeasurementType:(NSString *)inputType toMeasurementType:(NSString *)outputType
 {
-    CGFloat inputInStandardUnits;
-    CGFloat outputInStandardUnits;
+    double inputStandardUnits = [self getStandardConversionUnitsForMeasurementType:inputType];
+    double outputStandardUnits = [self getStandardConversionUnitsForMeasurementType:outputType];
     
-    inputInStandardUnits = input / [self getStandardConversionUnitsForMeasurementType:inputType];
-    outputInStandardUnits = inputInStandardUnits * [self getStandardConversionUnitsForMeasurementType:outputType];
+    CGFloat convertedInput = (input * inputStandardUnits);
+    CGFloat convertedOutput = (convertedInput / outputStandardUnits);
     
-
-
+    convertedOutput = roundf(convertedOutput * 100000)/100000;
     
-    return outputInStandardUnits;
+    return convertedOutput;
+    
 }
 
 
@@ -139,13 +139,13 @@
  *************************************/
 - (NSDictionary *)lengthTypes
 {
-    return    @{@"Inches"       : [NSNumber numberWithFloat:39.3701],
-                @"Feet"         : [NSNumber numberWithFloat:3.28084],
-                @"Yards"        : [NSNumber numberWithFloat:1.09361],
-                @"Miles"        : [NSNumber numberWithFloat:0.000621371],
-                @"Centimeters"  : [NSNumber numberWithFloat:100.0],
-                @"Meters"       : [NSNumber numberWithFloat:1.0],   // standard
-                @"Kilometers"   : [NSNumber numberWithFloat:0.001]};
+    return    @{@"Inches"       : [NSNumber numberWithDouble:0.0254],
+                @"Feet"         : [NSNumber numberWithDouble:0.304800610],
+                @"Yards"        : [NSNumber numberWithDouble:0.9144],
+                @"Miles"        : [NSNumber numberWithDouble:1609.347219],
+                @"Centimeters"  : [NSNumber numberWithDouble:0.001],
+                @"Meters"       : [NSNumber numberWithDouble:1.0],   // standard
+                @"Kilometers"   : [NSNumber numberWithDouble:100.0]};
 }
 
 
@@ -163,13 +163,13 @@
 
 - (NSDictionary *) weightTypes
 {
-    return    @{@"Milligrams"   : [NSNumber numberWithFloat:1000000.0],
-                @"Grams"        : [NSNumber numberWithFloat:1000.0],
-                @"Ounces"       : [NSNumber numberWithFloat:35.274],
-                @"Pounds"       : [NSNumber numberWithFloat:2.20462],
-                @"Kilograms"    : [NSNumber numberWithFloat:1.0], // standard
-                @"Tons"         : [NSNumber numberWithFloat:0.00110231],
-                @"Metric Tons"  : [NSNumber numberWithFloat:0.001]};
+    return    @{@"Milligrams"   : [NSNumber numberWithDouble:0.0000001],
+                @"Grams"        : [NSNumber numberWithDouble:0.0001],
+                @"Ounces"       : [NSNumber numberWithDouble:0.0028],
+                @"Pounds"       : [NSNumber numberWithDouble:0.45359237],
+                @"Kilograms"    : [NSNumber numberWithDouble:1.0], // standard
+                @"Tons"         : [NSNumber numberWithDouble:907.18474],
+                @"Metric Tons"  : [NSNumber numberWithDouble:1000.0]};
 }
 
 
@@ -187,14 +187,13 @@
 
 - (NSDictionary *) volumeTypes
 {
-    return    @{@"Teaspoons"    : [NSNumber numberWithFloat:202.884],
-                @"Tablespoons"  : [NSNumber numberWithFloat:67.628],
-                @"Cups"         : [NSNumber numberWithFloat:4.22675],
-                @"Pints"        : [NSNumber numberWithFloat:2.11338],
-                @"Quarts"       : [NSNumber numberWithFloat:1.05669],
-                @"Liters"       : [NSNumber numberWithFloat:1.0],  // standard
-                @"Gallons (US)" : [NSNumber numberWithFloat:0.264172],
-                @"Gallons (UK)" : [NSNumber numberWithFloat:0.219969]};
+    return    @{@"Teaspoons"    : [NSNumber numberWithDouble:0.000005],
+                @"Tablespoons"  : [NSNumber numberWithDouble:0.000015],
+                @"Cups"         : [NSNumber numberWithDouble:0.00023658823],
+                @"Pints"        : [NSNumber numberWithDouble:0.00047317647],
+                @"Quarts"       : [NSNumber numberWithDouble:0.00094635294],
+                @"Liters"       : [NSNumber numberWithDouble:0.001],  // standard
+                @"Gallons (US)" : [NSNumber numberWithDouble:0.00378541178]};
 }
 
 
@@ -206,20 +205,19 @@
                 @"Liters",
                 @"Quarts",
                 @"Pints",
-                @"Gallons (US)",
-                @"Gallons (UK)"];
+                @"Gallons (US)"];
 }
 
 
 - (NSDictionary *) timeTypes
 {
-    return    @{@"Seconds"  : [NSNumber numberWithFloat:3600.0],
-                @"Minutes"  : [NSNumber numberWithFloat:60.0],
-                @"Hours"    : [NSNumber numberWithFloat:1.0],   // standard
-                @"Days"     : [NSNumber numberWithFloat:(1/24.0)],
-                @"Weeks"    : [NSNumber numberWithFloat:(1/168.0)],
-                @"Months"   : [NSNumber numberWithFloat:(1/(24.0*30.5))],
-                @"Years"    : [NSNumber numberWithFloat:(1/(24.0*365.25))]};
+    return    @{@"Seconds"  : [NSNumber numberWithDouble:3600.0],
+                @"Minutes"  : [NSNumber numberWithDouble:60.0],
+                @"Hours"    : [NSNumber numberWithDouble:1.0],   // standard
+                @"Days"     : [NSNumber numberWithDouble:(1/24.0)],
+                @"Weeks"    : [NSNumber numberWithDouble:(1/168.0)],
+                @"Months"   : [NSNumber numberWithDouble:(1/(24.0*30.5))],
+                @"Years"    : [NSNumber numberWithDouble:(1/(24.0*365.25))]};
 }
 
 
