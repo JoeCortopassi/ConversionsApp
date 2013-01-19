@@ -121,8 +121,14 @@
     double inputStandardUnits = [self getStandardConversionUnitsForMeasurementType:inputType];
     double outputStandardUnits = [self getStandardConversionUnitsForMeasurementType:outputType];
     
+    
     CGFloat convertedInput = (input * inputStandardUnits);
     CGFloat convertedOutput = (convertedInput / outputStandardUnits);
+    
+    
+//    CGFloat ratioStandards = (inputStandardUnits/outputStandardUnits);
+//    CGFloat ratioConverted = (convertedInput/convertedOutput);
+
     
     convertedOutput = roundf(convertedOutput * 100000)/100000;
     
@@ -140,32 +146,32 @@
 - (NSDictionary *)lengthTypes
 {
     return    @{@"Inches"       : [NSNumber numberWithDouble:0.0254],
-                @"Feet"         : [NSNumber numberWithDouble:0.304800610],
+                @"Feet"         : [NSNumber numberWithDouble:0.3048],
                 @"Yards"        : [NSNumber numberWithDouble:0.9144],
-                @"Miles"        : [NSNumber numberWithDouble:1609.347219],
-                @"Centimeters"  : [NSNumber numberWithDouble:0.001],
+                @"Miles"        : [NSNumber numberWithDouble:1609.344],
+                @"Centimeters"  : [NSNumber numberWithDouble:0.01],
                 @"Meters"       : [NSNumber numberWithDouble:1.0],   // standard
-                @"Kilometers"   : [NSNumber numberWithDouble:100.0]};
+                @"Kilometers"   : [NSNumber numberWithDouble:1000.0]};
 }
 
 
 - (NSArray *)lengthOrder
 {
-    return    @[@"Inches",
+    return    @[@"Centimeters",
+                @"Inches",
                 @"Feet",
                 @"Yards",
-                @"Miles",
-                @"Centimeters",
                 @"Meters",
-                @"Kilometers"];
+                @"Kilometers",
+                @"Miles"];
 }
 
 
 - (NSDictionary *) weightTypes
 {
-    return    @{@"Milligrams"   : [NSNumber numberWithDouble:0.0000001],
-                @"Grams"        : [NSNumber numberWithDouble:0.0001],
-                @"Ounces"       : [NSNumber numberWithDouble:0.0028],
+    return    @{@"Milligrams"   : [NSNumber numberWithDouble:0.000001],
+                @"Grams"        : [NSNumber numberWithDouble:0.001],
+                @"Ounces"       : [NSNumber numberWithDouble:0.028349523125],
                 @"Pounds"       : [NSNumber numberWithDouble:0.45359237],
                 @"Kilograms"    : [NSNumber numberWithDouble:1.0], // standard
                 @"Tons"         : [NSNumber numberWithDouble:907.18474],
@@ -187,8 +193,8 @@
 
 - (NSDictionary *) volumeTypes
 {
-    return    @{@"Teaspoons"    : [NSNumber numberWithDouble:0.000005],
-                @"Tablespoons"  : [NSNumber numberWithDouble:0.000015],
+    return    @{@"Teaspoons"    : [NSNumber numberWithDouble:0.00000492892],
+                @"Tablespoons"  : [NSNumber numberWithDouble:0.00001478676],
                 @"Cups"         : [NSNumber numberWithDouble:0.00023658823],
                 @"Pints"        : [NSNumber numberWithDouble:0.00047317647],
                 @"Quarts"       : [NSNumber numberWithDouble:0.00094635294],
@@ -211,13 +217,13 @@
 
 - (NSDictionary *) timeTypes
 {
-    return    @{@"Seconds"  : [NSNumber numberWithDouble:3600.0],
-                @"Minutes"  : [NSNumber numberWithDouble:60.0],
+    return    @{@"Seconds"  : [NSNumber numberWithDouble:(1/3600.0)],
+                @"Minutes"  : [NSNumber numberWithDouble:(1/60.0)],
                 @"Hours"    : [NSNumber numberWithDouble:1.0],   // standard
-                @"Days"     : [NSNumber numberWithDouble:(1/24.0)],
-                @"Weeks"    : [NSNumber numberWithDouble:(1/168.0)],
-                @"Months"   : [NSNumber numberWithDouble:(1/(24.0*30.5))],
-                @"Years"    : [NSNumber numberWithDouble:(1/(24.0*365.25))]};
+                @"Days"     : [NSNumber numberWithDouble:24.0],
+                @"Weeks"    : [NSNumber numberWithDouble:(24.0*7)],
+                @"Months"   : [NSNumber numberWithDouble:(24.0*30.5)],
+                @"Years"    : [NSNumber numberWithDouble:(24.0*365.25)]};
 }
 
 
