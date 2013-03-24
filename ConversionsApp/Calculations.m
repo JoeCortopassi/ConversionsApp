@@ -19,13 +19,16 @@
 @property (nonatomic, readonly) NSArray *volumeOrder;
 @property (nonatomic, readonly) NSDictionary *timeTypes;
 @property (nonatomic, readonly) NSArray *timeOrder;
+@property (nonatomic, readonly) NSDictionary *speedTypes;
+@property (nonatomic, readonly) NSArray *speedOrder;
+@property (nonatomic, readonly) NSDictionary *temperatureTypes;
+@property (nonatomic, readonly) NSArray *temperatureOrder;
 @end
 
 
 @implementation Calculations
 
 @synthesize category, standardUnitOfMeasure;
-@synthesize lengthOrder, lengthTypes, weightOrder, weightTypes, volumeOrder, volumeTypes, timeOrder, timeTypes;
 
 
 - (id) init
@@ -76,6 +79,14 @@
     {
         measurementTypes = self.timeOrder;
     }
+    else if ([self.category caseInsensitiveCompare:@"speed"] == NSOrderedSame)
+    {
+        measurementTypes = self.speedOrder;
+    }
+    else if ([self.category caseInsensitiveCompare:@"temperature"] == NSOrderedSame)
+    {
+        measurementTypes = self.temperatureOrder;
+    }
     else
     {
         measurementTypes = nil;
@@ -106,6 +117,14 @@
     {
         measurementTypes = self.timeTypes;
     }
+    else if ([self.category caseInsensitiveCompare:@"speed"] == NSOrderedSame)
+    {
+        measurementTypes = self.speedTypes;
+    }
+    else if ([self.category caseInsensitiveCompare:@"temperature"] == NSOrderedSame)
+    {
+        measurementTypes = self.temperatureTypes;
+    }
     else
     {
         measurementTypes = nil;
@@ -118,24 +137,33 @@
 
 - (CGFloat) convert:(CGFloat)input fromMeasurementType:(NSString *)inputType toMeasurementType:(NSString *)outputType
 {
-    double inputStandardUnits = [self getStandardConversionUnitsForMeasurementType:inputType];
-    double outputStandardUnits = [self getStandardConversionUnitsForMeasurementType:outputType];
+    CGFloat returnValue = 0;
+    
+    if ([self.category caseInsensitiveCompare:@"temperature"] == NSOrderedSame)
+    {
+        returnValue = [self convert:input fromTemperatureType:inputType toTemperatureType:outputType];
+    }
+    else
+    {
+        double inputStandardUnits = [self getStandardConversionUnitsForMeasurementType:inputType];
+        double outputStandardUnits = [self getStandardConversionUnitsForMeasurementType:outputType];
+        
+        CGFloat convertedInput = (input * inputStandardUnits);
+        CGFloat convertedOutput = (convertedInput / outputStandardUnits);
+        
+        returnValue = roundf(convertedOutput * 100000)/100000;
+    }
     
     
-    CGFloat convertedInput = (input * inputStandardUnits);
-    CGFloat convertedOutput = (convertedInput / outputStandardUnits);
-    
-    
-//    CGFloat ratioStandards = (inputStandardUnits/outputStandardUnits);
-//    CGFloat ratioConverted = (convertedInput/convertedOutput);
-
-    
-    convertedOutput = roundf(convertedOutput * 100000)/100000;
-    
-    return convertedOutput;
+    return returnValue;
     
 }
 
+
+- (CGFloat) convert:(CGFloat)input fromTemperatureType:(NSString *)inputType toTemperatureType:(NSString *)outputType;
+{
+    
+}
 
 
 
@@ -236,6 +264,40 @@
                 @"Weeks",
                 @"Months",
                 @"Years"];
+}
+
+
+- (NSDictionary *) speedTypes
+{
+    return    @{@"Feet/Second"      : [NSNumber numberWithDouble:(0.3048)],
+                @"Kilometer/hour"   : [NSNumber numberWithDouble:(1/3.6)],
+                @"Meters/Second"    : [NSNumber numberWithDouble:1.0],   // standard
+                @"Mile/Hour"        : [NSNumber numberWithDouble:0.44704]};
+}
+
+
+- (NSArray *) speedOrder
+{
+    return    @[@"Feet/Second",
+                @"Meters/Second",
+                @"Kilometer/hour",
+                @"Mile/Hour"];
+}
+
+
+- (NSDictionary *) temperatureTypes
+{
+    return    @{@"Celsius"      : [NSNumber numberWithDouble:(1/3600.0)],
+                @"Fahrenheit"   : [NSNumber numberWithDouble:(1/60.0)],
+                @"Kelvin"       : [NSNumber numberWithDouble:1.0]};   // standard
+}
+
+
+- (NSArray *) temperatureOrder
+{
+    return    @[@"Celsius",
+                @"Fahrenheit",
+                @"Kelvin"];
 }
 
 @end

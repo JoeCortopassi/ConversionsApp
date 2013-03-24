@@ -55,6 +55,9 @@
     [self setUpInputBoxes];
     [self setupMeasurementTypePickers];
     [self setupButtons];
+    
+    
+    [self.tabBarController.moreNavigationController.navigationBar setHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning

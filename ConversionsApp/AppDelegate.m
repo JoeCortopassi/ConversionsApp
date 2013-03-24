@@ -25,7 +25,6 @@
     lengthConverter.title = @"Length";
     lengthConverter.tabBarItem.image = [UIImage imageNamed:@"length_tab_bar.png"];
     
-    
     CalculatorViewController *weightConverter = [[CalculatorViewController alloc] init];
     weightConverter.category = @"weight";
     weightConverter.title = @"Weight";
@@ -36,14 +35,30 @@
     volumeConverter.title = @"Volume";
     volumeConverter.tabBarItem.image = [UIImage imageNamed:@"volume_tab_bar.png"];
     
-    
     CalculatorViewController *timeConverter = [[CalculatorViewController alloc] init];
     timeConverter.category = @"time";
     timeConverter.title = @"Time";
     timeConverter.tabBarItem.image = [UIImage imageNamed:@"time_tab_bar.png"];
     
+    CalculatorViewController *speedConverter = [[CalculatorViewController alloc] init];
+    speedConverter.category = @"speed";
+    speedConverter.title = @"Speed";
+    
+    CalculatorViewController *temperatureConverter = [[CalculatorViewController alloc] init];
+    temperatureConverter.category = @"temperature";
+    temperatureConverter.title = @"Temperature";
+    
+    
+    
+    
     self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = @[lengthConverter, weightConverter, volumeConverter, timeConverter];
+    self.tabBarController.viewControllers = @[lengthConverter,
+                                              weightConverter,
+                                              volumeConverter,
+                                              timeConverter,
+                                              speedConverter,
+                                              temperatureConverter];
+    
     
     
     [self.window addSubview:self.tabBarController.view];
