@@ -42,6 +42,7 @@
 		730AF35B16A657940058264B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		730AF36416A661850058264B /* CalculatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculatorViewController.h; sourceTree = "<group>"; };
 		730AF36516A661850058264B /* CalculatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalculatorViewController.m; sourceTree = "<group>"; };
+		7386B9A916FFFEA6009E4725 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		7390A22016A7228600373AD6 /* Calculations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Calculations.h; sourceTree = "<group>"; };
 		7390A22116A7228600373AD6 /* Calculations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Calculations.m; sourceTree = "<group>"; };
 		7390A22B16A85B9300373AD6 /* weight_tab_bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weight_tab_bar@2x.png"; sourceTree = "<group>"; };
@@ -71,6 +72,7 @@
 		730AF33616A657940058264B = {
 			isa = PBXGroup;
 			children = (
+				7386B9A916FFFEA6009E4725 /* StoreKit.framework */,
 				73AC9BFC16AA55A000ACE332 /* app_icon_57.png */,
 				73AC9BF916AA550800ACE332 /* app_icon_114.png */,
 				73AC9BF716AA541900ACE332 /* Default-568h@2x.png */,

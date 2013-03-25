@@ -48,7 +48,10 @@
     temperatureConverter.category = @"temperature";
     temperatureConverter.title = @"Temperature";
     
-    
+    CalculatorViewController *areaConverter = [[CalculatorViewController alloc] init];
+    areaConverter.category = @"area";
+    areaConverter.title = @"Area";
+
     
     
     self.tabBarController = [[UITabBarController alloc] init];
@@ -57,8 +60,13 @@
                                               volumeConverter,
                                               timeConverter,
                                               speedConverter,
-                                              temperatureConverter];
+                                              temperatureConverter,
+                                              areaConverter];
     
+    UITableView *moreTableView = (UITableView *)[[tabBarController.moreNavigationController topViewController] view];
+    moreTableView.backgroundColor = [UIColor colorWithRed:(51.0/255.0) green:(51.0/255.0) blue:(51.0/255.0) alpha:1.0];
+    moreTableView.separatorColor = [UIColor blackColor];
+    moreTableView.dataSource = self;
     
     
     [self.window addSubview:self.tabBarController.view];
@@ -91,6 +99,43 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+
+
+
+
+
+
+
+/*
+  TabBar delegates
+ */
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.tabBarController.viewControllers count] - 4;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (cell == nil)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.contentView.backgroundColor = [UIColor colorWithRed:(51.0/255.0) green:(51.0/255.0) blue:(51.0/255.0) alpha:1.0];
+        cell.textLabel.textColor = [UIColor whiteColor];
+    }
+    
+    NSString *text = [[self.tabBarController.viewControllers objectAtIndex:(indexPath.row + 4)] title];
+
+    cell.textLabel.text = text;
+    
+    return cell;
+
 }
 
 @end

@@ -23,12 +23,13 @@
 @property (nonatomic, readonly) NSArray *speedOrder;
 @property (nonatomic, readonly) NSDictionary *temperatureTypes;
 @property (nonatomic, readonly) NSArray *temperatureOrder;
+@property (nonatomic, readonly) NSDictionary *areaTypes;
+@property (nonatomic, readonly) NSArray *areaOrder;
 @end
 
 
 @implementation Calculations
 
-@synthesize category, standardUnitOfMeasure;
 
 
 - (id) init
@@ -87,6 +88,10 @@
     {
         measurementTypes = self.temperatureOrder;
     }
+    else if ([self.category caseInsensitiveCompare:@"area"] == NSOrderedSame)
+    {
+        measurementTypes = self.areaOrder;
+    }
     else
     {
         measurementTypes = nil;
@@ -125,6 +130,10 @@
     {
         measurementTypes = self.temperatureTypes;
     }
+    else if ([self.category caseInsensitiveCompare:@"area"] == NSOrderedSame)
+    {
+        measurementTypes = self.areaTypes;
+    }
     else
     {
         measurementTypes = nil;
@@ -162,7 +171,50 @@
 
 - (CGFloat) convert:(CGFloat)input fromTemperatureType:(NSString *)inputType toTemperatureType:(NSString *)outputType;
 {
+    CGFloat convertedInput;
+    CGFloat convertedOutput;
+    CGFloat returnValue;
     
+    NSLog(@"Input: %f", input);
+    
+    if ([inputType caseInsensitiveCompare:@"celsius"] == NSOrderedSame)
+    {
+        convertedInput = input + 273.15;
+        NSLog(@"In - Ce: %f", convertedInput);
+    }
+    else if ([inputType caseInsensitiveCompare:@"fahrenheit"] == NSOrderedSame)
+    {
+        convertedInput = (input + 459.67) * (5.0/9.0);
+        NSLog(@"In - F: %f", convertedInput);
+    }
+    else
+    {
+        convertedInput = input;
+        NSLog(@"In - K: %f", convertedInput);
+    }
+    
+    
+    if ([outputType caseInsensitiveCompare:@"celsius"] == NSOrderedSame)
+    {
+        convertedOutput = convertedInput - 273.15;
+        NSLog(@"Out - Ce: %f", convertedOutput);
+    }
+    else if ([outputType caseInsensitiveCompare:@"fahrenheit"] == NSOrderedSame)
+    {
+        convertedOutput = ((convertedInput - 273.15) * 1.8) + 32.0;
+        NSLog(@"Out - F: %f", convertedOutput);
+    }
+    else
+    {
+        convertedOutput = convertedInput;
+        NSLog(@"Out - K: %f", convertedOutput);
+    }
+    
+    
+    returnValue = roundf(convertedOutput * 10000)/10000;
+    
+    
+    return returnValue;
 }
 
 
@@ -298,6 +350,30 @@
     return    @[@"Celsius",
                 @"Fahrenheit",
                 @"Kelvin"];
+}
+
+
+- (NSDictionary *) areaTypes
+{
+    return    @{@"Square Feet"      : [NSNumber numberWithDouble:0.09290304],
+                @"Square Inches"    : [NSNumber numberWithDouble:0.00064516],
+                @"Square Meter"     : [NSNumber numberWithDouble:1.0],  //standard
+                @"Square Yards"     : [NSNumber numberWithDouble:0.83612736],
+                @"Square Kilometers": [NSNumber numberWithDouble:1000000],
+                @"Square Miles"     : [NSNumber numberWithDouble:2589988.110336],
+                @"Acre"             : [NSNumber numberWithDouble:4046.8564224]};
+}
+
+
+- (NSArray *) areaOrder
+{
+    return    @[@"Square Feet",
+                @"Square Inches",
+                @"Square Meter",
+                @"Square Yards",
+                @"Square Kilometers",
+                @"Square Miles",
+                @"Acre"];
 }
 
 @end

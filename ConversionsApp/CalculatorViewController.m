@@ -60,6 +60,11 @@
     [self.tabBarController.moreNavigationController.navigationBar setHidden:YES];
 }
 
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [self.navigationController popToRootViewControllerAnimated:NO];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -444,7 +449,19 @@
     [self updateOutputLabel];
 }
 
-
+- (UIView *) pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+{
+    UILabel* labelView = (UILabel*)view;
+    labelView = [[UILabel alloc] init];
+    labelView.backgroundColor = [UIColor clearColor];
+    labelView.font = [UIFont boldSystemFontOfSize:20.0f];
+    labelView.adjustsFontSizeToFitWidth = YES;
+    labelView.text = [NSString stringWithFormat:@"  %@", [[self.calculator measurementTypes] objectAtIndex:row]];
+    
+    
+    
+    return labelView;
+}
 
 
 /*************************************
