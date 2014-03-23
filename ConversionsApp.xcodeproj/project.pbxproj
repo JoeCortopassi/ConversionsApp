@@ -22,8 +22,8 @@
 		7390A23816A89E3B00373AD6 /* time_tab_bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7390A23716A89E3B00373AD6 /* time_tab_bar@2x.png */; };
 		73AC9BF616AA540200ACE332 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73AC9BF516AA540200ACE332 /* Default@2x.png */; };
 		73AC9BF816AA541900ACE332 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73AC9BF716AA541900ACE332 /* Default-568h@2x.png */; };
-		73AC9BFB16AA559B00ACE332 /* app_icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 73AC9BF916AA550800ACE332 /* app_icon_114.png */; };
 		73AC9BFD16AA55A000ACE332 /* app_icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 73AC9BFC16AA55A000ACE332 /* app_icon_57.png */; };
+		73E3BDDF18DE69A800D02C5A /* app_icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E3BDDE18DE69A800D02C5A /* app_icon_114.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,8 +51,8 @@
 		7390A23716A89E3B00373AD6 /* time_tab_bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "time_tab_bar@2x.png"; sourceTree = "<group>"; };
 		73AC9BF516AA540200ACE332 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		73AC9BF716AA541900ACE332 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		73AC9BF916AA550800ACE332 /* app_icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon_114.png; sourceTree = "<group>"; };
 		73AC9BFC16AA55A000ACE332 /* app_icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon_57.png; sourceTree = "<group>"; };
+		73E3BDDE18DE69A800D02C5A /* app_icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon_114.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +74,7 @@
 			children = (
 				7386B9A916FFFEA6009E4725 /* StoreKit.framework */,
 				73AC9BFC16AA55A000ACE332 /* app_icon_57.png */,
-				73AC9BF916AA550800ACE332 /* app_icon_114.png */,
+				73E3BDDE18DE69A800D02C5A /* app_icon_114.png */,
 				73AC9BF716AA541900ACE332 /* Default-568h@2x.png */,
 				73AC9BF516AA540200ACE332 /* Default@2x.png */,
 				730AF34B16A657940058264B /* ConversionsApp */,
@@ -169,6 +169,11 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Joe Cortopassi";
+				TargetAttributes = {
+					730AF34016A657940058264B = {
+						DevelopmentTeam = 9U58B8G5CP;
+					};
+				};
 			};
 			buildConfigurationList = 730AF33B16A657940058264B /* Build configuration list for PBXProject "ConversionsApp" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -195,12 +200,12 @@
 				730AF35016A657940058264B /* InfoPlist.strings in Resources */,
 				730AF35816A657940058264B /* Default.png in Resources */,
 				7390A22C16A85B9300373AD6 /* weight_tab_bar@2x.png in Resources */,
+				73E3BDDF18DE69A800D02C5A /* app_icon_114.png in Resources */,
 				7390A23016A88D9E00373AD6 /* length_tab_bar@2x.png in Resources */,
 				7390A23616A8960000373AD6 /* volume_tab_bar@2x.png in Resources */,
 				7390A23816A89E3B00373AD6 /* time_tab_bar@2x.png in Resources */,
 				73AC9BF616AA540200ACE332 /* Default@2x.png in Resources */,
 				73AC9BF816AA541900ACE332 /* Default-568h@2x.png in Resources */,
-				73AC9BFB16AA559B00ACE332 /* app_icon_114.png in Resources */,
 				73AC9BFD16AA55A000ACE332 /* app_icon_57.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -292,6 +297,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ConversionsApp/ConversionsApp-Prefix.pch";
 				INFOPLIST_FILE = "ConversionsApp/ConversionsApp-Info.plist";
@@ -306,6 +312,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ConversionsApp/ConversionsApp-Prefix.pch";
 				INFOPLIST_FILE = "ConversionsApp/ConversionsApp-Info.plist";

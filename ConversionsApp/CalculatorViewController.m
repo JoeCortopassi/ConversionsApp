@@ -148,7 +148,7 @@
     [self.view addSubview:self.leftPickerView];
     [self.view addSubview:self.rightPickerView];
     
-     [self setupPickerOverlay];
+ //    [self setupPickerOverlay];
 }
 
 
